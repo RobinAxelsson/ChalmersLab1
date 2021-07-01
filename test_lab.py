@@ -2,13 +2,28 @@ import unittest
 import wordfreq
 
 class TestWordfreq(unittest.TestCase):
-    pass
-    # wordfreq.tokenize
 
-    # [], []
-    # [""], []
-    # ["   "], []
-    # ["This is a simple sentence"], ["this","is","a","simple","sentence"]
+    # wordfreq.tokenize
+    def test_tokenize_emptyArray(self):
+        expect = []
+        actual = wordfreq.tokenize([])
+        self.assertEqual(expect, actual)
+    
+    def test_tokenize_EmptyString(self):
+        expect = []
+        actual = wordfreq.tokenize([""])
+        self.assertEqual(expect, actual)
+
+    def test_tokenize_blankSpaces(self):
+        expect = []
+        actual = wordfreq.tokenize("   ")
+        self.assertEqual(expect, actual)
+
+    def test_tokenize_sentenceStringToLower(self):
+        expect = ["this","is","a","simple","sentence"]
+        actual = wordfreq.tokenize(["This is a simple sentence"])
+        self.assertEqual(expect, actual)
+
     # ["I told you!"], ["i","told","you","!"]
     # ["The 10 little chicks"], ["the","10","little","chicks"]
     # ["15th anniversary"], ["15","th","anniversary"]
