@@ -16,7 +16,7 @@ class TestWordfreq(unittest.TestCase):
 
     def test_tokenize_blankSpaces(self):
         expect = []
-        actual = wordfreq.tokenize("   ")
+        actual = wordfreq.tokenize(["   "])
         self.assertEqual(expect, actual)
 
     def test_tokenize_sentenceStringToLower(self):
