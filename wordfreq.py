@@ -7,7 +7,22 @@ def tokenize(inputList: list):
     filtered = [line for line in inputList if line != '' and line.isspace() == False]
     if len(filtered) == 0:
         return []
-    return [item for sublist in unpack(filtered) for item in sublist]
+    split = [item for sublist in unpack(filtered) for item in sublist]
+    sepparated = []
+    for word in split:
+        sepparated.extend(sepparate(word, ['!', 'th']))
+    return sepparated
+
+def sepparate(word: str, seps: list[str]):
+    seppareted = []
+    stripWord = word
+    for sep in seps:
+        if sep in word:
+            seppareted.append(sep)
+            stripWord.strip(sep)
+    seppareted.append(stripWord)
+    return seppareted
+
 
 def unpack(input):
     if isinstance(input, str):

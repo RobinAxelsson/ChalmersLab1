@@ -24,8 +24,21 @@ class TestWordfreq(unittest.TestCase):
         actual = wordfreq.tokenize(["This is a simple sentence"])
         self.assertEqual(expect, actual)
 
-    # ["I told you!"], ["i","told","you","!"]
-    # ["The 10 little chicks"], ["the","10","little","chicks"]
+    def test_tokenize_specialChar(self):
+        expect = ["i","told","you","!"]
+        actual = wordfreq.tokenize(["I told you!"])
+        self.assertEqual(expect, actual)
+    
+    def test_tokenize_twoSentence(self):
+        expect = ["the","10","little","chicks"]
+        actual = wordfreq.tokenize(["The 10 little chicks"])
+        self.assertEqual(expect, actual)
+    
+    def test_tokenize_th(self):
+        expect = ["15","th","anniversary"]
+        actual = wordfreq.tokenize(["15th anniversary"])
+        self.assertEqual(expect, actual)
+
     # ["15th anniversary"], ["15","th","anniversary"]
     # ["He is in the room, she said."], ["he","is","in","the","room",",","she","said","."]
 
