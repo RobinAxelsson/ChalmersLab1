@@ -39,6 +39,16 @@ class TestWordfreq(unittest.TestCase):
         actual = wordfreq.tokenize(["15th anniversary"])
         self.assertEqual(expect, actual)
 
+    def test_separate_14th(self):
+        expect = ["15","th"]
+        actual = wordfreq.separate("15th", ["th"])
+        self.assertEqual(expect, actual)
+    
+    def test_separate_the(self):
+        expect = ["the"]
+        actual = wordfreq.separate("the", ["th"])
+        self.assertEqual(expect, actual)
+
     # ["15th anniversary"], ["15","th","anniversary"]
     # ["He is in the room, she said."], ["he","is","in","the","room",",","she","said","."]
 

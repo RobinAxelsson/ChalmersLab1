@@ -8,21 +8,21 @@ def tokenize(inputList: list):
     if len(filtered) == 0:
         return []
     split = [item for sublist in unpack(filtered) for item in sublist]
-    sepparated = []
+    separated = []
     for word in split:
-        sepparated.extend(sepparate(word, ['!', 'th']))
-    return sepparated
+        separated.extend(separate(word, ['!', 'th']))
+    return separated
 
-def sepparate(word: str, seps: list[str]):
-    seppareted = []
-    stripWord = word
+def separate(word: str, seps: list[str]):
+    stripWord: str = word
+    wordIndexes: list[(str, int)] = list()
     for sep in seps:
         if sep in word:
-            seppareted.append(sep)
-            stripWord.strip(sep)
-    seppareted.append(stripWord)
-    return seppareted
-
+            wordIndexes.append((sep, word.index(sep)))
+            stripWord = stripWord.strip(sep)
+    wordIndexes.append((stripWord, word.index(stripWord)))
+    sortedWords: list[str] = [x[0] for x in sorted(wordIndexes, key=lambda w: w[1])]
+    return sortedWords
 
 def unpack(input):
     if isinstance(input, str):
