@@ -9,26 +9,45 @@ def tokenize(inputList: list):
     if len(filtered) == 0:
         return []
     split = [item for sublist in unpack(filtered) for item in sublist]
-    separated = []
+    markSeps = []
     for word in split:
-        separated.extend(separate(word, ['!', 'th']))
+        markSeps.extend(separateMarks(word, ["!", ",", "."]))
+    separated = []
+    for word in markSeps:
+        separated.extend(separateEnd(word, ['th']))
     return separated
 
+def separateMarks(word: str, marks: list[str]):
+    if len(word) == 1:
+        return word
+    words: list[str] = []
 
-def separate(word: str, seps: list[str]):
-    # if len(word) == 1:
-    #     return word
+    while True:
+        comp = word[-1]
+        marksExists = []
+        for mark in marks:
+            if comp == mark:
+                words.append(mark)
+                word = word[:-1]
+                marksExists.append(True)
+            else:
+                marksExists.append(False)
+        if any(marksExists) == False:
+            words.append(word)
+            break
+
+    words.reverse()
+    return words
+#Removes separators from end of list, beginning with the longest alternative
+def separateEnd(word: str, seps: list[str]):
+    if len(word) == 1:
+        return word
     stripWord: str = word
     charCount = len(word)
     words: list[str] = []
 
-#Removes separators from end of list, beginning with the longest
     while True:
-        start = -len(stripWord)
-        end = 0
-        iRange = range(start, end, +1)
-        rangeList = [i for i in iRange]
-        for i in iRange:
+        for i in range(-len(stripWord), 0, +1):
             comp = stripWord[i:]
             for sep in seps:
                 if comp == sep:
@@ -52,9 +71,20 @@ def unpack(input):
         return [unpack(item) for item in input]
 
 
-def countWords():
-    pass
+def countWords(words: list[str], skipWords: list[str]):
+    wordDict = {}
+    if len(words) > 0:
+        filtered = [word for word in words if word not in skipWords]
+        for word in filtered:
+            wordDict[word] = filtered.count(word)
+    return wordDict
 
-
-def printTopMost():
-    pass
+def printTopMost(wordDict: dict[str, int], top: int):
+    if wordDict == {}:
+        return {}
+    if top < 1:
+        return ''
+    if top > 0:
+        return {key:value for (key,value) in wordDict.items() if value >= top}
+    else:
+        raise Exception()

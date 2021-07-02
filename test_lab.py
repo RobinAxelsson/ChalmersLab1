@@ -3,7 +3,7 @@ import wordfreq
 
 class TestWordfreq(unittest.TestCase):
 
-    # wordfreq.tokenize
+    #### wordfreq.tokenize ####
     def test_tokenize_emptyArray(self):
         expect = []
         actual = wordfreq.tokenize([])
@@ -39,33 +39,70 @@ class TestWordfreq(unittest.TestCase):
         actual = wordfreq.tokenize(["15th anniversary"])
         self.assertEqual(expect, actual)
 
-    def test_separate_14th(self):
+    def test_tokenize_th(self):
+        expect = ["he","is","in","the","room",",","she","said","."]
+        actual = wordfreq.tokenize(["He is in the room, she said."])
+        self.assertEqual(expect, actual)
+
+    #### wordfreq.separateEnd ####
+    def test_separateEnd_14th(self):
         expect = ["15","th"]
-        actual = wordfreq.separate("15th", ["th"])
+        actual = wordfreq.separateEnd("15th", ["th"])
         self.assertEqual(expect, actual)
     
-    def test_separate_the(self):
+    def test_separateEnd_the(self):
         expect = ["the"]
-        actual = wordfreq.separate("the", ["th"])
+        actual = wordfreq.separateEnd("the", ["th"])
         self.assertEqual(expect, actual)
 
-    def test_separate_gather(self):
+    def test_separateEnd_gather(self):
         expect = ["gather"]
-        actual = wordfreq.separate("gather", ["th"])
+        actual = wordfreq.separateEnd("gather", ["th"])
         self.assertEqual(expect, actual)
 
-    # ["15th anniversary"], ["15","th","anniversary"]
-    # ["He is in the room, she said."], ["he","is","in","the","room",",","she","said","."]
+    #### wordfreq.separateMarks ####
+    def test_separateMarks_stacked(self):
+        expect = ["th", "!", "!", "!"]
+        actual = wordfreq.separateMarks("th!!!", ["!"])
+        self.assertEqual(expect, actual)
 
-    # wordfreq.countWords
+    #### wordfreq.countWords ####
+    def test_countWords_emptyList(self):
+        expect = {}
+        actual = wordfreq.countWords([], [])
+        self.assertEqual(expect, actual)
 
-    # ([],[]), {}
-    # (["clean","water"],[]), {"clean":1,"water":1}
-    # (["clean","water","is","drinkable","water"],[]), {"clean":1,"water":2,"is":1,"drinkable":1}
-    # (["clean","water","is","drinkable","water"],["is"]), {"clean":1,"water":2,"drinkable":1}
+    def test_countWords_clean_water(self):
+        expect = {"clean":1,"water":1}
+        actual = wordfreq.countWords(["clean","water"],[])
+        self.assertEqual(expect, actual)
+
+    def test_countWords_twoArray(self):
+        expect = {"clean":1,"water":2,"drinkable":1}
+        actual = wordfreq.countWords(["clean","water","is","drinkable","water"],["is"])
+        self.assertEqual(expect, actual)
+    
+    def test_countWords_twoWater(self):
+        expect = {"clean":1,"water":2,"is":1,"drinkable":1}
+        actual = wordfreq.countWords(["clean","water","is","drinkable","water"],[])
+        self.assertEqual(expect, actual)
+
+    def test_countWords_twoWater_removeis(self):
+        expect = {"clean":1,"water":2,"drinkable":1}
+        actual = wordfreq.countWords(["clean","water","is","drinkable","water"],["is"])
+        self.assertEqual(expect, actual)
 
     # wordfreq.printTopMost
 
-    # ({},10),""
-    # ({"horror": 5, "happiness": 15},0),""
+    def test_printTopMost_empty_dict(self):
+        expect = {}
+        actual = wordfreq.printTopMost({}, 10)
+        self.assertEqual(expect, actual)
+        
+    def test_printTopMost_Top0(self):
+        expect = ""
+        actual = wordfreq.printTopMost({"horror": 5, "happiness": 15},0)
+        self.assertEqual(expect, actual)
+
+    #def test_printTopMost_Top3
     # ({"C": 3, "python": 5, "haskell": 2, "java": 1},3),"python                  5\nC                       3\nhaskell                 2\n"
