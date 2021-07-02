@@ -21,6 +21,7 @@ def separate(word: str, seps: list[str]):
     stripWord: str = word
     charCount = len(word)
     words: list[str] = []
+
 #Removes separators from end of list, beginning with the longest
     while True:
         start = -len(stripWord)
