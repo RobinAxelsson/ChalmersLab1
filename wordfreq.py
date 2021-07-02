@@ -86,11 +86,17 @@ def countWords(words: list[str], skipWords: list[str]):
 
 def printTopMost(wordDict: dict[str, int], top: int):
     if wordDict == {}:
-        return {}
-    if top < 1:
-        return ''
-    if top > 0:
-        dictTop = {key:value for (key,value) in wordDict.items() if value >= top} #maybe supposed to be top words...
-        return dictTop
+        return wordDict
+    if top > 0 and len(wordDict)>0:
+        tupleFreq = [(word, freq) for word, freq in wordDict.items()]
+        tupleFreq.sort(key=lambda tup: tup[1], reverse=True)
+        strList: list[str] = []
+        for i in range(top):
+            word = tupleFreq[i][0]
+            freq = str(tupleFreq[i][1])
+            freq = freq.rjust(26-len(freq)-len(word))
+            strList.append(word + freq + '\n')
+        join = ''.join(strList)
+        return join
     else:
         raise Exception()

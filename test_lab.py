@@ -104,9 +104,9 @@ class TestWordfreq(unittest.TestCase):
         actual = wordfreq.printTopMost({}, 10)
         self.assertEqual(expect, actual)
         
-    def test_printTopMost_Top0(self):
-        expect = ""
-        actual = wordfreq.printTopMost({"horror": 5, "happiness": 15},0)
+    def test_printTopMost_Top3(self):
+        expect = "python                  5\nC                       3\nhaskell                 2\n"
+        actual = wordfreq.printTopMost({"C": 3, "python": 5, "haskell": 2, "java": 1},3)
         self.assertEqual(expect, actual)
     
     # def test_printTopMost_Top3(self):
@@ -117,3 +117,7 @@ class TestWordfreq(unittest.TestCase):
     #     self.assertEqual(expect, actual)
     # This one seems strange, need to check docs.
     # ({"C": 3, "python": 5, "haskell": 2, "java": 1},3),"python                  5\nC                       3\nhaskell                 2\n"
+
+#"python                  5\nC                       3\nhaskell                 2"
+#"python                  5\nC                       3\nhaskell                 2\n"
+#'python                  5\nC                       3\nhaskell                 2\n'
