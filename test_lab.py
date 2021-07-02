@@ -43,6 +43,11 @@ class TestWordfreq(unittest.TestCase):
         expect = ["he","is","in","the","room",",","she","said","."]
         actual = wordfreq.tokenize(["He is in the room, she said."])
         self.assertEqual(expect, actual)
+    
+    def test_tokenize_word_space(self):
+        expect = ["java", "java"]
+        actual = wordfreq.tokenize(["   java    java    "])
+        self.assertEqual(expect, actual)
 
     #### wordfreq.separateEnd ####
     def test_separateEnd_14th(self):
@@ -91,6 +96,11 @@ class TestWordfreq(unittest.TestCase):
         expect = {"clean":1,"water":2,"drinkable":1}
         actual = wordfreq.countWords(["clean","water","is","drinkable","water"],["is"])
         self.assertEqual(expect, actual)
+    
+    def test_countWords_one(self):
+        expect = {"java":1}
+        actual = wordfreq.countWords(["java"],[])
+        self.assertEqual(expect, actual)
 
     # wordfreq.printTopMost
 
@@ -103,6 +113,12 @@ class TestWordfreq(unittest.TestCase):
         expect = ""
         actual = wordfreq.printTopMost({"horror": 5, "happiness": 15},0)
         self.assertEqual(expect, actual)
-
-    #def test_printTopMost_Top3
+    
+    def test_printTopMost_Top3(self):
+        expect = {"java": 1}
+        words = wordfreq.tokenize(["java       "])
+        wordDict = wordfreq.countWords(words, [])
+        actual = wordfreq.printTopMost(wordDict, 3)
+        self.assertEqual(expect, actual)
+    # This one seems strange, need to check docs.
     # ({"C": 3, "python": 5, "haskell": 2, "java": 1},3),"python                  5\nC                       3\nhaskell                 2\n"

@@ -1,3 +1,5 @@
+# Your first task is to define a function called tokenize which should take a 
+# complete document as a list of text lines and produce a list of tokens, in the correct order.
 
 def tokenize(inputList: list):
     if not isinstance(inputList, list):
@@ -85,6 +87,7 @@ def printTopMost(wordDict: dict[str, int], top: int):
     if top < 1:
         return ''
     if top > 0:
-        return {key:value for (key,value) in wordDict.items() if value >= top}
+        dictTop = {key:value for (key,value) in wordDict.items() if value >= top} #maybe supposed to be top words...
+        return dictTop
     else:
         raise Exception()
