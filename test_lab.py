@@ -2,8 +2,22 @@ import unittest
 import wordfreq
 
 class TestWordfreq(unittest.TestCase):
-    #### testing.symbols ####
-    
+    #### testing.typeSplit ####
+    def test_typeSplit(self):
+        expect = ['!', ',', '?', 'aaa']
+        actual = wordfreq.typeSplit("!,?aaa")
+        self.assertEqual(expect, actual)
+
+    def test_typeSplit_14th(self):
+        expect = ["15","th"]
+        actual = wordfreq.typeSplit("15th")
+        self.assertEqual(expect, actual)
+
+    def test_typeSplit_stacked(self):
+        expect = ["th", "!", "!", "!"]
+        actual = wordfreq.typeSplit("th!!!")
+        self.assertEqual(expect, actual)
+
     #### wordfreq.tokenize ####
     def test_tokenize_emptyArray(self):
         expect = []
@@ -50,27 +64,7 @@ class TestWordfreq(unittest.TestCase):
         actual = wordfreq.tokenize(["   java    java    "])
         self.assertEqual(expect, actual)
 
-    #### wordfreq.separateEnd ####
-    def test_separateEnd_14th(self):
-        expect = ["15","th"]
-        actual = wordfreq.separateEnd("15th", ["th"])
-        self.assertEqual(expect, actual)
-    
-    def test_separateEnd_the(self):
-        expect = ["the"]
-        actual = wordfreq.separateEnd("the", ["th"])
-        self.assertEqual(expect, actual)
 
-    def test_separateEnd_gather(self):
-        expect = ["gather"]
-        actual = wordfreq.separateEnd("gather", ["th"])
-        self.assertEqual(expect, actual)
-
-    #### wordfreq.separateMarks ####
-    def test_separateMarks_stacked(self):
-        expect = ["th", "!", "!", "!"]
-        actual = wordfreq.separateMarks("th!!!", ["!"])
-        self.assertEqual(expect, actual)
 
     #### wordfreq.countWords ####
     def test_countWords_emptyList(self):

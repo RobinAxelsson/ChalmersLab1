@@ -1,5 +1,22 @@
 # Your first task is to define a function called tokenize which should take a 
 # complete document as a list of text lines and produce a list of tokens, in the correct order.
+import enum
+
+class strType(enum.Enum):
+    Alpha = 0
+    Digit = 1
+    Symbol = 2
+    White = 3
+    
+    def checkType(char: str):
+        if char.isspace():
+            return strType.White
+        if char.isdigit():
+            return strType.Digit
+        if char.isalpha():
+            return strType.Alpha
+        else:
+            return strType.Symbol
 
 def tokenize(inputList: list):
     if not isinstance(inputList, list):
@@ -11,67 +28,53 @@ def tokenize(inputList: list):
     if len(filtered) == 0:
         return []
     split = [item for sublist in unpack(filtered) for item in sublist]
-    markSeps = []
+    output = []
     for word in split:
-        markSeps.extend(separateMarks(word, ["!", ",", "."]))
-    separated = []
-    for word in markSeps:
-        separated.extend(separateEnd(word, ['th']))
-    return separated
-
-def separateMarks(word: str, marks: list[str]):
-    if len(word) == 1:
-        return word
-    words: list[str] = []
-
-    while True:
-        comp = word[-1]
-        marksExists = []
-        for mark in marks:
-            if comp == mark:
-                words.append(mark)
-                word = word[:-1]
-                marksExists.append(True)
-            else:
-                marksExists.append(False)
-        if any(marksExists) == False:
-            words.append(word)
-            break
-
-    words.reverse()
-    return words
-#Removes separators from end of list, beginning with the longest alternative
-def separateEnd(word: str, seps: list[str]):
-    if len(word) == 1:
-        return word
-    stripWord: str = word
-    charCount = len(word)
-    words: list[str] = []
-
-    while True:
-        for i in range(-len(stripWord), 0, +1):
-            comp = stripWord[i:]
-            for sep in seps:
-                if comp == sep:
-                    words.append(sep)
-                    stripWord = stripWord.strip(sep)
-        if len(stripWord) == charCount:
-            words.insert(0, stripWord)
-            break
-        else:
-            charCount = len(stripWord)
-    return words
-
-
+        output.extend(typeSplit(word))
+    return output
+    
 def unpack(input):
     if isinstance(input, str):
-        if ' ' in input:
-            return [word.lower() for word in input.split()]
-        else:
-            return input.lower()
+            return typeSplit(input.lower())
     if isinstance(input, list):
         return [unpack(item) for item in input]
+    else:
+        raise Exception()
 
+def typeSplit(word: str):
+    output: list[str] = []
+    temp = ''
+    lastType = strType.Alpha
+
+    for char in word:
+        newType = strType.checkType(char)
+
+        # all symbols are seperated from each other in a new string
+        if newType == strType.Symbol:
+            if temp != '':
+                output.append(temp)
+            output.append(char)
+            temp=''
+            lastType = strType.Symbol
+
+        # whites are allways skipped
+        elif newType == strType.White:
+            if temp != '':
+                output.append(temp)
+            temp=''
+        # if new chartype is different from last save the
+        # temporary string and start building a new one
+        elif newType != lastType:
+            if temp != '':
+                output.append(temp)
+            temp = char
+            lastType = newType
+        elif newType == strType.Alpha or newType == strType.Digit:
+            temp+=char
+
+    if temp != '':
+        output.append(temp)
+    return output
 
 def countWords(words: list[str], skipWords: list[str]):
     wordDict = {}
