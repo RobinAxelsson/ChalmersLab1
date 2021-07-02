@@ -3,8 +3,9 @@ def tokenize(inputList: list):
     if not isinstance(inputList, list):
         raise Exception('You have to enter an list')
     if inputList == []:
-         return []
-    filtered = [line for line in inputList if line != '' and line.isspace() == False]
+        return []
+    filtered = [line for line in inputList if line !=
+                '' and line.isspace() == False]
     if len(filtered) == 0:
         return []
     split = [item for sublist in unpack(filtered) for item in sublist]
@@ -13,19 +14,32 @@ def tokenize(inputList: list):
         separated.extend(separate(word, ['!', 'th']))
     return separated
 
-def separate(word: str, seps: list[str]):
-    stripWord: str = word
-    wordIndexes: list[(str, int)] = list()
-    for sep in seps:
-        if sep in word:
-            wIndex = word.index(sep)
-            if wIndex != 0:
-                wordIndexes.append((sep, word.index(sep)))
-                stripWord = stripWord.strip(sep)
-    wordIndexes.append((stripWord, word.index(stripWord)))
-    sortedWords: list[str] = [x[0] for x in sorted(wordIndexes, key=lambda w: w[1])]
 
-    return sortedWords
+def separate(word: str, seps: list[str]):
+    # if len(word) == 1:
+    #     return word
+    stripWord: str = word
+    charCount = len(word)
+    words: list[str] = []
+#Removes separators from end of list, beginning with the longest
+    while True:
+        start = -len(stripWord)
+        end = 0
+        iRange = range(start, end, +1)
+        rangeList = [i for i in iRange]
+        for i in iRange:
+            comp = stripWord[i:]
+            for sep in seps:
+                if comp == sep:
+                    words.append(sep)
+                    stripWord = stripWord.strip(sep)
+        if len(stripWord) == charCount:
+            words.insert(0, stripWord)
+            break
+        else:
+            charCount = len(stripWord)
+    return words
+
 
 def unpack(input):
     if isinstance(input, str):
@@ -39,6 +53,7 @@ def unpack(input):
 
 def countWords():
     pass
+
 
 def printTopMost():
     pass
