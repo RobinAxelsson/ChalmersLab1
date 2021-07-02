@@ -108,16 +108,3 @@ class TestWordfreq(unittest.TestCase):
         expect = "python                  5\nC                       3\nhaskell                 2\n"
         actual = wordfreq.printTopMost({"C": 3, "python": 5, "haskell": 2, "java": 1},3)
         self.assertEqual(expect, actual)
-    
-    # def test_printTopMost_Top3(self):
-    #     expect = {"java": 1}
-    #     words = wordfreq.tokenize(["java       "])
-    #     wordDict = wordfreq.countWords(words, [])
-    #     actual = wordfreq.printTopMost(wordDict, 3)
-    #     self.assertEqual(expect, actual)
-    # This one seems strange, need to check docs.
-    # ({"C": 3, "python": 5, "haskell": 2, "java": 1},3),"python                  5\nC                       3\nhaskell                 2\n"
-
-#"python                  5\nC                       3\nhaskell                 2"
-#"python                  5\nC                       3\nhaskell                 2\n"
-#'python                  5\nC                       3\nhaskell                 2\n'

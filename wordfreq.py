@@ -77,6 +77,7 @@ def typeSplit(word: str):
     return output
 
 def countWords(words: list[str], skipWords: list[str]):
+    skipWords = tokenize(skipWords)
     wordDict = {}
     if len(words) > 0:
         filtered = [word for word in words if word not in skipWords]
@@ -90,13 +91,12 @@ def printTopMost(wordDict: dict[str, int], top: int):
     if top > 0 and len(wordDict)>0:
         tupleFreq = [(word, freq) for word, freq in wordDict.items()]
         tupleFreq.sort(key=lambda tup: tup[1], reverse=True)
-        strList: list[str] = []
+        concat: str = ''
         for i in range(top):
             word = tupleFreq[i][0]
             freq = str(tupleFreq[i][1])
-            freq = freq.rjust(26-len(freq)-len(word))
-            strList.append(word + freq + '\n')
-        join = ''.join(strList)
-        return join
+            whiteCount = 25-len(word)-len(freq)
+            concat += (word + ' '*whiteCount + freq + '\n')
+        return concat
     else:
         raise Exception()
