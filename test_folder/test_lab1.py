@@ -38,6 +38,16 @@ class TestWordfreq(unittest.TestCase):
         actual = wordfreq.tokenize(["   "])
         self.assertEqual(expect, actual)
 
+    def test_tokenize_oneString(self):
+        expect = ['python']
+        actual = wordfreq.tokenize('python')
+        self.assertEqual(expect, actual)
+
+    def test_tokenize_stringText(self):
+        expect = ['python', 'python', 'java']
+        actual = wordfreq.tokenize('python    python  java ')
+        self.assertEqual(expect, actual)
+
     def test_tokenize_sentenceStringToLower(self):
         expect = ["this","is","a","simple","sentence"]
         actual = wordfreq.tokenize(["This is a simple sentence"])
@@ -166,15 +176,20 @@ class TestWordfreq(unittest.TestCase):
     def test_printTopMost_C_python_haskell_java(self):
         expect = "python                  5\nC                       3\nhaskell                 2\n"
         actual = TestWordfreq.fakePrintTopMost({"C": 3, "python": 5, "haskell": 2, "java": 1},3)
+        self.assertEqual(expect, actual)
     
+    ## analyzeText ##
+
+    # def test_analyzeText_3python
+
     ## run printTopMost.py with args ##
 
     def test_py_printTopMost_3python(self):
-        expect = "python                  3"
-        actual = process.run('py topmost.py eng_stopwords.txt test_folder/test_example1.txt 1').strip()
+        expect = "python                  3\n"
+        actual = process.run('py topmost.py eng_stopwords.txt test_folder/test_example1.txt 1')
         self.assertEqual(expect, actual)
 
     def test_py_printTopMost_ask3words(self):
-        expect = "python                  3"
-        actual = process.run('py topmost.py eng_stopwords.txt test_folder/test_example1.txt 3').strip()
+        expect = "python                  3\n"
+        actual = process.run('py topmost.py eng_stopwords.txt test_folder/test_example1.txt 3')
         self.assertEqual(expect, actual)

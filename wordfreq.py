@@ -18,15 +18,20 @@ class strType(enum.Enum):
         else:
             return strType.Symbol
 
-def tokenize(inputList: list):
-    if not isinstance(inputList, list):
-        raise Exception('You have to enter an list')
-    if inputList == []:
+# def analyzeText(readText, stopText):
+#     wordList = tokenize(readText)
+#     stopList = tokenize(stopText)
+#     dictionary = countWords(wordList, stopList)
+#     return dictionary
+
+def tokenize(input):
+    if input == []:
         return []
-    filtered = [line for line in inputList if line !=
-                '' and line.isspace() == False]
-    if len(filtered) == 0:
-        return []
+    if isinstance(input, list):
+        filtered = [line for line in input if line !=
+                    '' and line.isspace() == False]
+    if isinstance(input, str):
+        filtered = input.split()
     split = [item for sublist in unpack(filtered) for item in sublist]
     output = []
     for word in split:
@@ -90,10 +95,12 @@ def printTopMost(wordDict: dict[str, int], top: int):
         return
     tupleFreq = [(word, freq) for word, freq in wordDict.items()]
     tupleFreq.sort(key=lambda tup: tup[1], reverse=True)
-    concat: str = ''
+    concats = []
+    if top > len(tupleFreq):
+        top = len(tupleFreq)
     for i in range(top):
         word = tupleFreq[i][0]
         freq = str(tupleFreq[i][1])
         whiteCount = 25-len(word)-len(freq)
-        concat += (word + ' '*whiteCount + freq + '\n')
-    print(concat)
+        concats.append(word + ' '*whiteCount + freq)
+    print('\n'.join(concats))
