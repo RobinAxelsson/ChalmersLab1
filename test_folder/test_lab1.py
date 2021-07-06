@@ -1,6 +1,8 @@
 import unittest
 import wordfreq
+import os
 import test_folder.run_process as process
+
 class TestWordfreq(unittest.TestCase):
     #### testing.typeSplit ####
     def test_typeSplit(self):
@@ -104,23 +106,25 @@ class TestWordfreq(unittest.TestCase):
         actual = wordfreq.countWords(["java"],[])
         self.assertEqual(expect, actual)
 
-    # wordfreq.printTopMost
-
-    def test_printTopMost_empty_dict(self):
-        expect = {}
-        actual = wordfreq.printTopMost({}, 10)
-        self.assertEqual(expect, actual)
-        
-    def test_printTopMost_Top3(self):
-        expect = "python                  5\nC                       3\nhaskell                 2\n"
-        actual = wordfreq.printTopMost({"C": 3, "python": 5, "haskell": 2, "java": 1},3)
-        self.assertEqual(expect, actual)
-
     # run_process.py #
     def test_runner_expect_same(self):
-        expected = 'test_folder/run_args.py arg1 arg2\n'
+        expect = 'test_folder/run_args.py arg1 arg2\n'
         actual = process.run('py test_folder/run_args.py arg1 arg2')
-        self.assertEqual(expected, actual)
+        self.assertEqual(expect, actual)
 
-    def test_runner_expect_text(self):
-        
+    def test_runfolder_expect_lab1(self):
+        expect = 'lab1'
+        actual = os.getcwd().split('\\')[-1]
+        self.assertEqual(expect, actual)
+    
+    def test_runfolder_process(self):
+        expect = 'lab1\n'
+        actual = process.run('py test_folder/run_path.py')
+        self.assertEqual(expect, actual)
+
+    def test_runhello_process(self):
+        expect = 'Hello World\n'
+        actual = process.run('py test_folder/run_hello.py test_folder/hello.txt')
+        self.assertEqual(expect, actual)
+
+    # wordfreq.printTopMost
