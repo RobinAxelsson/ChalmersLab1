@@ -8,7 +8,7 @@ def test(fun,x,y):
 		z = fun(*x)
 	else:
 		z = fun(x)
-	if y == z:
+	if y == z: 
 		pass_tests = pass_tests + 1
 	else:
 		if type(x) == tuple:
@@ -24,12 +24,8 @@ def test(fun,x,y):
 def run(src_path=None):
 	global pass_tests, fail_tests
 
-	if src_path == None:
-		import wordfreq
-	else:
-		spec = importlib.util.spec_from_file_location("wordfreq", src_path+"/wordfreq.py")
-		wordfreq = importlib.util.module_from_spec(spec)
-		spec.loader.exec_module(wordfreq)
+
+	import wordfreq
 
 	pass_tests = 0
 	fail_tests = 0

@@ -1,6 +1,6 @@
 import unittest
 import wordfreq
-import run_process
+import test_folder.run_process as process
 class TestWordfreq(unittest.TestCase):
     #### testing.typeSplit ####
     def test_typeSplit(self):
@@ -116,8 +116,8 @@ class TestWordfreq(unittest.TestCase):
         actual = wordfreq.printTopMost({"C": 3, "python": 5, "haskell": 2, "java": 1},3)
         self.assertEqual(expect, actual)
 
-    # runner.run #
+    # run_process.py #
     def test_runner_expect_same(self):
         expected = 'test_folder/testrun.py arg1 arg2\n'
-        actual = run_process.run('py test_folder/testrun.py arg1 arg2')
+        actual = process.run('py test_folder/testrun.py arg1 arg2')
         self.assertEqual(expected, actual)
