@@ -118,6 +118,9 @@ class TestWordfreq(unittest.TestCase):
 
     # run_process.py #
     def test_runner_expect_same(self):
-        expected = 'test_folder/testrun.py arg1 arg2\n'
-        actual = process.run('py test_folder/testrun.py arg1 arg2')
+        expected = 'test_folder/run_args.py arg1 arg2\n'
+        actual = process.run('py test_folder/run_args.py arg1 arg2')
         self.assertEqual(expected, actual)
+
+    def test_runner_expect_text(self):
+        
