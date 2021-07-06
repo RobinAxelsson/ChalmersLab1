@@ -86,17 +86,14 @@ def countWords(words: list[str], skipWords: list[str]):
     return wordDict
 
 def printTopMost(wordDict: dict[str, int], top: int):
-    if wordDict == {}:
-        return wordDict
-    if top > 0 and len(wordDict)>0:
-        tupleFreq = [(word, freq) for word, freq in wordDict.items()]
-        tupleFreq.sort(key=lambda tup: tup[1], reverse=True)
-        concat: str = ''
-        for i in range(top):
-            word = tupleFreq[i][0]
-            freq = str(tupleFreq[i][1])
-            whiteCount = 25-len(word)-len(freq)
-            concat += (word + ' '*whiteCount + freq + '\n')
-        return concat
-    else:
-        raise Exception()
+    if wordDict == {} or top < 1:
+        return
+    tupleFreq = [(word, freq) for word, freq in wordDict.items()]
+    tupleFreq.sort(key=lambda tup: tup[1], reverse=True)
+    concat: str = ''
+    for i in range(top):
+        word = tupleFreq[i][0]
+        freq = str(tupleFreq[i][1])
+        whiteCount = 25-len(word)-len(freq)
+        concat += (word + ' '*whiteCount + freq + '\n')
+    print(concat)

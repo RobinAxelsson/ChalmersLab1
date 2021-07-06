@@ -2,6 +2,8 @@ import unittest
 import wordfreq
 import os
 import test_folder.run_process as process
+import sys
+import io
 
 class TestWordfreq(unittest.TestCase):
     #### testing.typeSplit ####
@@ -127,4 +129,52 @@ class TestWordfreq(unittest.TestCase):
         actual = process.run('py test_folder/run_hello.py test_folder/hello.txt')
         self.assertEqual(expect, actual)
 
-    # wordfreq.printTopMost
+    # fake print to test topmost #
+
+    def fakePrint(text):
+        saved = sys.stdout
+        sys.stdout = io.StringIO()
+        print(text)
+        out = sys.stdout.getvalue()
+        sys.stdout = saved
+        return out
+
+    def fakePrintTopMost(freq,n):
+        saved = sys.stdout
+        sys.stdout = io.StringIO()
+        wordfreq.printTopMost(freq,n)
+        out = sys.stdout.getvalue()
+        sys.stdout = saved
+        return out
+    def test_fakePrintTopMost(self):
+        expect = 'Hello World\n'
+        actual = TestWordfreq.fakePrint('Hello World')
+        self.assertEqual(expect, actual)
+    
+    ## printTopMost ##
+
+    def test_printTopMost_empty_dict(self):
+        expect = ""
+        actual = TestWordfreq.fakePrintTopMost({}, 10)
+        self.assertEqual(expect, actual)
+    
+    def test_printTopMost_Zero_words(self):
+        expect = ""
+        actual = TestWordfreq.fakePrintTopMost({"horror": 5, "happiness": 15},0)
+        self.assertEqual(expect, actual)
+
+    def test_printTopMost_C_python_haskell_java(self):
+        expect = "python                  5\nC                       3\nhaskell                 2\n"
+        actual = TestWordfreq.fakePrintTopMost({"C": 3, "python": 5, "haskell": 2, "java": 1},3)
+    
+    ## run printTopMost.py with args ##
+
+    def test_py_printTopMost_3python(self):
+        expect = "python                  3"
+        actual = process.run('py topmost.py eng_stopwords.txt test_folder/test_example1.txt 1').strip()
+        self.assertEqual(expect, actual)
+
+    def test_py_printTopMost_ask3words(self):
+        expect = "python                  3"
+        actual = process.run('py topmost.py eng_stopwords.txt test_folder/test_example1.txt 3').strip()
+        self.assertEqual(expect, actual)
