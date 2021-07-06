@@ -1,6 +1,6 @@
 import unittest
 import wordfreq
-
+import run_process
 class TestWordfreq(unittest.TestCase):
     #### testing.typeSplit ####
     def test_typeSplit(self):
@@ -64,7 +64,14 @@ class TestWordfreq(unittest.TestCase):
         actual = wordfreq.tokenize(["   java    java    "])
         self.assertEqual(expect, actual)
 
-
+    def test_tokenize_fromAssignmentDoc(self):
+        document = ['"They had 16 rolls of duct tape, 2 bags of clothes pins,', '130 hampsters from the cancer labs down the hall, and', 'at least 500 pounds of grape jello and unknown amounts of chopped liver"', 'said the source on a recent Geraldo interview.']
+        expect = ['"', 'they', 'had', '16', 'rolls', 'of', 'duct', 'tape', ',', '2', 'bags', 'of', 'clothes', 'pins', ',',
+ '130', 'hampsters', 'from', 'the', 'cancer', 'labs', 'down', 'the', 'hall', ',', 'and', 'at', 'least',
+ '500', 'pounds', 'of', 'grape', 'jello', 'and', 'unknown', 'amounts', 'of', 'chopped', 'liver', '"', 
+ 'said', 'the', 'source', 'on', 'a', 'recent', 'geraldo', 'interview', '.']
+        actual = wordfreq.tokenize(document)
+        self.assertEqual(expect, actual)
 
     #### wordfreq.countWords ####
     def test_countWords_emptyList(self):
@@ -108,3 +115,9 @@ class TestWordfreq(unittest.TestCase):
         expect = "python                  5\nC                       3\nhaskell                 2\n"
         actual = wordfreq.printTopMost({"C": 3, "python": 5, "haskell": 2, "java": 1},3)
         self.assertEqual(expect, actual)
+
+    # runner.run #
+    def test_runner_expect_same(self):
+        expected = 'test_folder/testrun.py arg1 arg2\n'
+        actual = run_process.run('py test_folder/testrun.py arg1 arg2')
+        self.assertEqual(expected, actual)
