@@ -1,6 +1,4 @@
-import enum
-
-class strType(enum.Enum):
+class strType():
     Alpha = 0
     Digit = 1
     Symbol = 2
@@ -21,15 +19,15 @@ def tokenize(input):
         return []
     if isinstance(input, list):
         input = " ".join(input)
-    words = [word.lower() for word in input.split()]
-    output = []
-    for word in words:
-        output.extend(typeSplit(word))
-    return output
+    stringList = [word.lower() for word in input.split()]
+    tokens = []
+    for string in stringList:
+        tokens.extend(typeSplit(string))
+    return tokens
 
 def typeSplit(word: str):
     output: list[str] = []
-    temp = ''
+    token = ''
     lastType = strType.Alpha
 
     for char in word:
@@ -37,29 +35,29 @@ def typeSplit(word: str):
 
         # all symbols are seperated from each other in a new string
         if newType == strType.Symbol:
-            if temp != '':
-                output.append(temp)
+            if token != '':
+                output.append(token)
             output.append(char)
-            temp=''
+            token=''
             lastType = strType.Symbol
 
-        # whites are allways skipped
+        # white's are allways skipped
         elif newType == strType.White:
-            if temp != '':
-                output.append(temp)
-            temp=''
+            if token != '':
+                output.append(token)
+            token=''
         # if new chartype is different from last save the
         # temporary string and start building a new one
         elif newType != lastType:
-            if temp != '':
-                output.append(temp)
-            temp = char
+            if token != '':
+                output.append(token)
+            token = char
             lastType = newType
         elif newType == strType.Alpha or newType == strType.Digit:
-            temp+=char
+            token+=char
 
-    if temp != '':
-        output.append(temp)
+    if token != '':
+        output.append(token)
     return output
 
 def countWords(words: list[str], skipWords: list[str]):
