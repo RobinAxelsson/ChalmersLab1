@@ -1,5 +1,3 @@
-# Your first task is to define a function called tokenize which should take a 
-# complete document as a list of text lines and produce a list of tokens, in the correct order.
 import enum
 
 class strType(enum.Enum):
@@ -18,33 +16,16 @@ class strType(enum.Enum):
         else:
             return strType.Symbol
 
-# def analyzeText(readText, stopText):
-#     wordList = tokenize(readText)
-#     stopList = tokenize(stopText)
-#     dictionary = countWords(wordList, stopList)
-#     return dictionary
-
 def tokenize(input):
     if input == []:
         return []
     if isinstance(input, list):
-        filtered = [line for line in input if line !=
-                    '' and line.isspace() == False]
-    if isinstance(input, str):
-        filtered = input.split()
-    split = [item for sublist in unpack(filtered) for item in sublist]
+        input = " ".join(input)
+    words = [word.lower() for word in input.split()]
     output = []
-    for word in split:
+    for word in words:
         output.extend(typeSplit(word))
     return output
-    
-def unpack(input):
-    if isinstance(input, str):
-            return typeSplit(input.lower())
-    if isinstance(input, list):
-        return [unpack(item) for item in input]
-    else:
-        raise Exception()
 
 def typeSplit(word: str):
     output: list[str] = []
