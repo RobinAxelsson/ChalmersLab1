@@ -177,10 +177,6 @@ class TestWordfreq(unittest.TestCase):
         expect = "python                  5\nC                       3\nhaskell                 2\n"
         actual = TestWordfreq.fakePrintTopMost({"C": 3, "python": 5, "haskell": 2, "java": 1},3)
         self.assertEqual(expect, actual)
-    
-    ## analyzeText ##
-
-    # def test_analyzeText_3python
 
     ## run printTopMost.py with args ##
 
@@ -193,3 +189,9 @@ class TestWordfreq(unittest.TestCase):
         expect = "python                  3\n"
         actual = process.run('py topmost.py eng_stopwords.txt test_folder/test_example1.txt 3')
         self.assertEqual(expect, actual)
+
+    # def test_py_printTopMost_localhost8000(self):
+    ## startup server with command python3 -m http.server
+    #     expect = "python                  3\n"
+    #     actual = process.run('py topmost.py eng_stopwords.txt http://localhost:8000/test_folder/test_example1.txt 3')
+    #     self.assertEqual(expect, actual)

@@ -46,16 +46,18 @@ def typeSplit(word: str):
             if token != '':
                 output.append(token)
             token=''
-        # if new chartype is different from last save the
-        # temporary string and start building a new one
+        # if new chartype is different from last save the token and start building a new one
         elif newType != lastType:
             if token != '':
                 output.append(token)
             token = char
             lastType = newType
+        # else build token as alfa or number
         elif newType == strType.Alpha or newType == strType.Digit:
             token+=char
-
+        else:
+            raise Exception()
+    # make sure last token is appended
     if token != '':
         output.append(token)
     return output
@@ -69,15 +71,18 @@ def countWords(words: list[str], skipWords: list[str]):
             wordDict[word] = filtered.count(word)
     return wordDict
 
-def printTopMost(wordDict: dict[str, int], top: int):
-    if wordDict == {} or top < 1:
+def printTopMost(wordDict: dict[str, int], topX: int):
+    if wordDict == {} or topX < 1:
         return
+    # dictionary converts to list of tuple to be sorted
     tupleFreq = [(word, freq) for word, freq in wordDict.items()]
     tupleFreq.sort(key=lambda tup: tup[1], reverse=True)
     concats = []
-    if top > len(tupleFreq):
-        top = len(tupleFreq)
-    for i in range(top):
+
+    if topX > len(tupleFreq):
+        topX = len(tupleFreq)
+        
+    for i in range(topX):
         word = tupleFreq[i][0]
         freq = str(tupleFreq[i][1])
         whiteCount = 25-len(word)-len(freq)
